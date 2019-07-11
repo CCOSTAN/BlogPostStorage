@@ -1,0 +1,50 @@
+function Test() { 
+  ImportJSONISBN("https://api2.isbndb.com/book/9781260486230", "book")
+}
+  
+function ImportJSONISBN(url, xpath, optional) {
+
+  try{
+  var headers = {
+             "contentType": "application/json",
+             "headers":{"Authorization": "xxxxxxxxxxxxxxxxxxxx"}  // 
+             };
+
+  var res = UrlFetchApp.fetch(url, headers);
+  var content = res.getContentText();
+  var json = JSON.parse(content);
+  var patharray = xpath.split("/");
+    
+  for(var i=0;i<patharray.length;i++){
+      json = json[patharray[i]];
+    }
+                
+  if(typeof(json) === "undefined"){
+      return "Node Not Available";
+    } 
+  else if(typeof(json) === "object"){
+      var tempArr = [];
+      if (optional === "debug") {
+          for(var obj in json){
+          tempArr.push([obj,json[obj]]);
+          }}
+        else {
+          var sheet = SpreadsheetApp.getActiveSheet();
+          var last = sheet.getLastColumn();
+          var header = sheet.getRange(1, 1, 1, last).getValues()[0];
+          for (var h = 3; h < header.length; h++) {
+            tempArr.push(header[h] in json ? json[header[h]] : "-");
+          }
+        }
+ 
+      return tempArr;
+    } 
+    
+  else if(typeof(json) !== "object") {
+      return json;
+    }
+  }
+     
+    catch(err){
+      return "-";  
+  }
