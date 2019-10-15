@@ -14,7 +14,7 @@
 <p align="center"><a align="center" target="_blank" href="https://vcloudinfo.us12.list-manage.com/subscribe?u=45cab4343ffdbeb9667c28a26&id=e01847e94f"><img src="http://feeds.feedburner.com/RecentCommitsToBearStoneHA.1.gif" alt="Recent Commits to Bear Stone Smart Home" style="border:0"></a></p>
 <div align="center"><a name="menu"></a>
   <h4>
-    <a href="http://www.vCloudInfo.com/search/label/iot">
+    <a href="http://www.vCloudInfo.com/tag/iot">
       Blog
     </a>
     <span> | </span>
@@ -22,7 +22,7 @@
       Devices
     </a>
     <span> | </span>
-    <a href="https://github.com/CCOSTAN/Home-AssistantConfig/issues">
+    <a href="https://github.com/CCOSTAN/Home-AssistantConfig/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">
       Todo List
     </a>
     <span> | </span>
@@ -30,8 +30,8 @@
       Smart Home Stats
     </a>
     <span> | </span>
-    <a href="https://www.facebook.com/BearStoneHA">
-      Facebook
+    <a href="https://www.vcloudinfo.com/click-here">
+      Follow Me
     </a>
     <span> | </span>
     <a href="https://github.com/CCOSTAN/Home-AssistantConfig/tree/master/config">
@@ -40,19 +40,19 @@
     <span> | </span>
     <a href="https://github.com/CCOSTAN/Home-AssistantConfig#diagram">
       Diagram
-    </a>    
+    </a>
     <span> | </span>
-    <a href="https://youtube.com/CCOSTAN">
+    <a href="https://youtube.com/vCloudInfo">
       Youtube
     </a>
     <span> | </span>
-    <a href="https://www.vcloudinfo.com/p/shop-our-merch.html">
-      Tee Shop
+    <a href="https://amzn.to/2HXSx2M">
+      Merch
     </a>
   </h4>
 
-[HOW TO DETERMINE THE SECURITY ZONE WITH THE GETSECZONE UTILITY](https://www.vcloudinfo.com/2018/12/how-to-determine-security-zone-with.html)
-
+[How to determine the Security Zone: GetSecZone](https://www.vcloudinfo.com/2018/12/how-to-determine-security-zone-with.html)
+[How to Create Volatile Registry Keys: VolatileKey](https://www.vcloudinfo.com/2019/10/how-to-create-volatile-registry-keys-new-utility.html)
 <a name="bottom" href="https://github.com/CCOSTAN/Home-AssistantConfig#logo"><img align="right" border="0" src="https://raw.githubusercontent.com/CCOSTAN/Home-AssistantConfig/master/config/www/custom_ui/floorplan/images/branding/up_arrow.png" width="25" ></a>
 
 **Still have questions on my Config?**
