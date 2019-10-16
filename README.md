@@ -51,11 +51,11 @@
     </a>
   </h4>
 <p align="center">
-[Creating ‘This PC’ Namespace Items: ThisPC_Item](https://www.vcloudinfo.com/2019/10/creating-this-pc-namespace-items-new-utility.html) 
-<br>
-[How to determine the Security Zone: GetSecZone](https://www.vcloudinfo.com/2018/12/how-to-determine-security-zone-with.html)
-<br>
-[How to Create Volatile Registry Keys: VolatileKey](https://www.vcloudinfo.com/2019/10/how-to-create-volatile-registry-keys-new-utility.html)
+
+<a target="_blank" href="https://www.vcloudinfo.com/2019/10/creating-this-pc-namespace-items-new-utility.html">[Creating ‘This PC’ Namespace Items: ThisPC_Item]>/a><br>
+<a target="_blank" href="https://www.vcloudinfo.com/2018/12/how-to-determine-security-zone-with.html">[How to determine the Security Zone: GetSecZone]>/a><br>
+<a target="_blank" href="https://www.vcloudinfo.com/2019/10/how-to-create-volatile-registry-keys-new-utility.html">[How to Create Volatile Registry Keys: VolatileKey]>/a><br>
+
 <a name="bottom" href="https://github.com/CCOSTAN/Home-AssistantConfig#logo"><img align="right" border="0" src="https://raw.githubusercontent.com/CCOSTAN/Home-AssistantConfig/master/config/www/custom_ui/floorplan/images/branding/up_arrow.png" width="25" ></a>
 
 **Still have questions on my Config?**
