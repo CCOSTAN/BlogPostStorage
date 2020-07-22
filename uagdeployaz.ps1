@@ -30,6 +30,7 @@
 
 <#
     .SYNOPSIS
+    Updated by @CCOSTAN - https://vCloudInfo.com
      Sample Powershell script to deploy a VMware UAG virtual appliance to Microsoft Azure.
     .EXAMPLE
      .\uagdeployeaz.ps1 uag1.ini 
@@ -156,9 +157,12 @@ function ValidateNetworkSettings {
 #
  
 function GenerateAzureRandomPassword {
-    add-type -AssemblyName System.Web
+<#     add-type -AssemblyName System.Web
     $pwd = [System.Web.Security.Membership]::GeneratePassword(12,3)
     $pwd = "Passw0rd!"+$pwd
+    $pwd #>
+	
+	$pwd = (-join(65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90|%{[char]$_}|Get-Random -C 2)) + (-join(97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122|%{[char]$_}|Get-Random -C 2)) + (-join(65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90|%{[char]$_}|Get-Random -C 2)) + (-join(97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122|%{[char]$_}|Get-Random -C 2)) + (-join(64,33,35,36|%{[char]$_}|Get-Random -C 1))  + (-join(49,50,51,52,53,54,55,56,57|%{[char]$_}|Get-Random -C 3)) 
     $pwd
 }
 
@@ -316,6 +320,8 @@ if ($settings.Azure.subscriptionID -gt 0) {
 
 Write-Host ". OK"
 
+$ceipEnabled = $settings.General.ceipEnabled
+
 $deploymentOption=GetDeploymentSettingOption $settings
 
 if ($uagName.length -gt 32) { 
@@ -417,6 +423,7 @@ if ($imageURI.length -eq 0) {
     [IO.File]::Delete($ovfFile)
     Exit
 }
+
 
 $location = $settings.Azure.location
 
@@ -591,8 +598,14 @@ $ovfProperties = Get-Content -Raw $ovfFile
 $customData = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($ovfProperties))
 
 $vm = Set-AzVMOperatingSystem -VM $vm -Linux -Credential $Credential -ComputerName $uagName -CustomData $customData
+<<<<<<< Updated upstream
 
 $newvm = New-AzVM -ResourceGroupName $resourceGroupName -Location $location -VM $vm -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+=======
+
+$newvm = New-AzVM -ResourceGroupName $resourceGroupName -Location $location -VM $vm -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+
+>>>>>>> Stashed changes
 
 if (!$newvm) {
     Write-Host ". FAILED"
