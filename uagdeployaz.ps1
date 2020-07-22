@@ -30,6 +30,7 @@
 
 <#
     .SYNOPSIS
+    Updated by @CCOSTAN - https://vCloudInfo.com
      Sample Powershell script to deploy a VMware UAG virtual appliance to Microsoft Azure.
     .EXAMPLE
      .\uagdeployeaz.ps1 uag1.ini 
@@ -52,10 +53,10 @@ function CreateNIC {
     $publicIPAddressName = $settings.Azure.("publicIPAddressName"+$nic)
     $networkSecurityGroupName = $settings.Azure.("networkSecurityGroupName"+$nic)
 
-    $vnet = Get-AzureRmVirtualNetwork -Name $virtualNetworkName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
+    $vnet = Get-AzVirtualNetwork -Name $virtualNetworkName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
 
     if ($publicIPAddressName.length -gt 0) {
-        $pip=Get-AzureRmPublicIpAddress -Name $publicIPAddressName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
+        $pip=Get-AzPublicIpAddress -Name $publicIPAddressName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
         $pipParam = @{
             "PublicIpAddressId"=$pip.Id
         }
@@ -64,7 +65,7 @@ function CreateNIC {
     }
 
     if ($networkSecurityGroupName.length -gt 0) {
-        $nsg=Get-AzureRmNetworkSecurityGroup -Name $networkSecurityGroupName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
+        $nsg=Get-AzNetworkSecurityGroup -Name $networkSecurityGroupName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
         $nsgParam = @{
             "NetworkSecurityGroupId"=$nsg.Id
         }
@@ -75,13 +76,13 @@ function CreateNIC {
     $subnetId = $vnet.Subnets[0].Id
 
     if ($subnetName.Length -gt 0) {
-        $sn = Get-AzureRmVirtualNetworkSubnetConfig -Name $subnetName -VirtualNetwork $vnet -ErrorAction Ignore -WarningAction SilentlyContinue
+        $sn = Get-AzVirtualNetworkSubnetConfig -Name $subnetName -VirtualNetwork $vnet -ErrorAction Ignore -WarningAction SilentlyContinue
         if ($sn) {
             $subnetId = $sn.Id
         }
     }
 
-    $newnic = New-AzureRmNetworkInterface -Name $nicName -ResourceGroupName $resourceGroupName -Location $settings.Azure.location -Force -SubnetId $subnetId @pipParam @nsgParam -WarningAction SilentlyContinue
+    $newnic = New-AzNetworkInterface -Name $nicName -ResourceGroupName $resourceGroupName -Location $settings.Azure.location -Force -SubnetId $subnetId @pipParam @nsgParam -WarningAction SilentlyContinue
 
     If([string]::IsNullOrEmpty($newnic)) {    
         $msg = $error[0]
@@ -105,7 +106,7 @@ function ValidateNetworkSettings {
 
     if ($virtualNetworkName.length -gt 0) {
 
-        $vNet=Get-AzureRmVirtualNetwork -Name $virtualNetworkName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
+        $vNet=Get-AzVirtualNetwork -Name $virtualNetworkName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
         If([string]::IsNullOrEmpty($vNet)) {    
             $msg = $error[0]
             WriteErrorString "Error: [Azure] virtualNetworkName ($virtualNetworkName) not found"
@@ -117,7 +118,7 @@ function ValidateNetworkSettings {
     }
 
     if ($subnetName.Length -gt 0) {
-        $sn = Get-AzureRmVirtualNetworkSubnetConfig -Name $subnetName -VirtualNetwork $vnet -ErrorAction Ignore -WarningAction SilentlyContinue
+        $sn = Get-AzVirtualNetworkSubnetConfig -Name $subnetName -VirtualNetwork $vnet -ErrorAction Ignore -WarningAction SilentlyContinue
         if (!$sn) {
             WriteErrorString "Error: [Azure] subnetName$nic ($subnetName) not found in virtual network $virtualNetworkName"
             Exit
@@ -128,7 +129,7 @@ function ValidateNetworkSettings {
 
     if ($publicIPName.length -gt 0) {
     
-        $pip=Get-AzureRmPublicIpAddress -Name $publicIPName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
+        $pip=Get-AzPublicIpAddress -Name $publicIPName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
         If([string]::IsNullOrEmpty($pip)) {
             WriteErrorString "Error: [Azure] publicIPAddressName$nic ($publicIPName) not found"
             Exit
@@ -143,7 +144,7 @@ function ValidateNetworkSettings {
     $networkSecurityGroupName = $settings.Azure.("networkSecurityGroupName"+$nic)
 
     if ($networkSecurityGroupName.length -gt 0) {
-        $nsg=Get-AzureRmNetworkSecurityGroup -Name $networkSecurityGroupName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
+        $nsg=Get-AzNetworkSecurityGroup -Name $networkSecurityGroupName -ResourceGroupName $resourceGroupName -ErrorAction Ignore -WarningAction SilentlyContinue
         If([string]::IsNullOrEmpty($nsg)) {
             WriteErrorString "Error: [Azure] networkSecurityGroupName$nic ($networkSecurityGroupName) not found"
             Exit
@@ -156,9 +157,12 @@ function ValidateNetworkSettings {
 #
  
 function GenerateAzureRandomPassword {
-    add-type -AssemblyName System.Web
+<#     add-type -AssemblyName System.Web
     $pwd = [System.Web.Security.Membership]::GeneratePassword(12,3)
     $pwd = "Passw0rd!"+$pwd
+    $pwd #>
+	
+	$pwd = (-join(65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90|%{[char]$_}|Get-Random -C 2)) + (-join(97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122|%{[char]$_}|Get-Random -C 2)) + (-join(65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90|%{[char]$_}|Get-Random -C 2)) + (-join(97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122|%{[char]$_}|Get-Random -C 2)) + (-join(64,33,35,36|%{[char]$_}|Get-Random -C 1))  + (-join(49,50,51,52,53,54,55,56,57|%{[char]$_}|Get-Random -C 3)) 
     $pwd
 }
 
@@ -169,9 +173,9 @@ function DeleteExistingUAGResources {
     $storageAccName = $settings.Azure.storageAccountName
     $diskStorageContainer = $settings.Azure.diskStorageContainer.ToLower()
 
-    $storageContext = (Get-AzureRmStorageAccount | Where-Object{$_.StorageAccountName -Contains $storageAccName}).Context
+    $storageContext = (Get-AzStorageAccount | Where-Object{$_.StorageAccountName -Contains $storageAccName}).Context
 
-    $VMInfo = Get-AzureRmVM  -Name $uagName -ResourceGroupName $resourceGroupName -DisplayHint Expand -ErrorAction Ignore
+    $VMInfo = Get-AzVM  -Name $uagName -ResourceGroupName $resourceGroupName -DisplayHint Expand -ErrorAction Ignore
 
     If ($VMInfo.Name) {
 
@@ -184,14 +188,14 @@ function DeleteExistingUAGResources {
             'ResourceGroupName' = $resourceGroupName
         }
 
-        $vmResource = Get-AzureRmResource @resourceParams -ErrorAction Ignore
+        $vmResource = Get-AzResource @resourceParams -ErrorAction Ignore
 
         if ($vmResource) {
             $vmId = $vmResource.Properties.VmId
             $diagContainerName = ('bootdiagnostics-{0}-{1}' -f $VMInfo.Name.ToLower(), $vmId)
         }
 
-	    $rm = Remove-AzureRmVM -ResourceGroupName $resourceGroupName -Name $uagName -Force
+	    $rm = Remove-AzVM -ResourceGroupName $resourceGroupName -Name $uagName -Force
 
         if ($rm) {
             $status = $rm.Status
@@ -223,9 +227,9 @@ function DeleteExistingUAGResources {
     # Delete the NICs
     #
 
-    $out = Remove-AzureRmNetworkInterface -ResourceGroupName $resourceGroupName -Name $($uagName+"-eth0")  –Force
-    $out = Remove-AzureRmNetworkInterface -ResourceGroupName $resourceGroupName -Name $($uagName+"-eth1")  –Force
-    $out = Remove-AzureRmNetworkInterface -ResourceGroupName $resourceGroupName -Name $($uagName+"-eth2")  –Force
+    $out = Remove-AzNetworkInterface -ResourceGroupName $resourceGroupName -Name $($uagName+"-eth0")  
+    $out = Remove-AzNetworkInterface -ResourceGroupName $resourceGroupName -Name $($uagName+"-eth1")  
+    $out = Remove-AzNetworkInterface -ResourceGroupName $resourceGroupName -Name $($uagName+"-eth2") 
 
 }
 
@@ -248,20 +252,16 @@ import-module $uagDeployModule -Force -ArgumentList $awAPIServerPwd, $awTunnelGa
 # Check that the required Azure PowerShell modules are installed
 #
 
-if (-not (Get-Module -ListAvailable -Name "AzureRM.Compute")) {
-    WriteErrorString "Error: Powershell module AzureRM.Compute not found. Run the command 'Install-Module -Name AzureRM -Force' and retry"
+if (-not (Get-Module -ListAvailable -Name "Az.Compute")) {
+    WriteErrorString "Error: Powershell module Az.Compute not found. Run the command 'Install-Module -Name Az -Force' and retry"
     Exit
 }
 
-if (-not (Get-Module -ListAvailable -Name "AzureRM.Storage")) {
-    WriteErrorString "Error: Powershell module AzureRM.Storage not found. Run the command 'Install-Module -Name AzureRM -Force' and retry"
+if (-not (Get-Module -ListAvailable -Name "Az.Storage")) {
+    WriteErrorString "Error: Powershell module Az.Storage not found. Run the command 'Install-Module -Name Az -Force' and retry"
     Exit
 }
 
-if (-not (Get-Module -ListAvailable -Name "AzureRM.Profile")) {
-    WriteErrorString "Error: Powershell module AzureRM.Profile not found. Run the command 'Install-Module -Name AzureRM -Force' and retry"
-    Exit
-}
 
 Write-host "Unified Access Gateway (UAG) virtual appliance Microsoft Azure deployment script"
 
@@ -281,18 +281,18 @@ $uagName=$settings.General.name
 Write-Host -NoNewline "Validating Azure subscription .."
 
 try {
-    $out=Get-AzureRmSubscription -ErrorAction Ignore
+    $out=Get-AzSubscription -ErrorAction Ignore
     }
     
 catch {
-    connect-AzurermAccount
+    connect-AzAccount
 }
 
 Write-Host -NoNewline "."
 
 if (!$out) {
     try {
-        $out=Get-AzureRmSubscription -ErrorAction Ignore
+        $out=Get-AzSubscription -ErrorAction Ignore
         }
     
     catch {
@@ -306,7 +306,7 @@ Write-Host -NoNewline "."
 if ($settings.Azure.subscriptionID -gt 0) {
 
     try {
-        $out=Set-AzureRmContext -SubscriptionId $settings.Azure.subscriptionID
+        $out=Set-AzContext -SubscriptionId $settings.Azure.subscriptionID
     }
 
     catch {
@@ -319,6 +319,8 @@ if ($settings.Azure.subscriptionID -gt 0) {
 }
 
 Write-Host ". OK"
+
+$ceipEnabled = $settings.General.ceipEnabled
 
 $deploymentOption=GetDeploymentSettingOption $settings
 
@@ -422,13 +424,14 @@ if ($imageURI.length -eq 0) {
     Exit
 }
 
+
 $location = $settings.Azure.location
 
 if ($location.length -gt 0) {
-    $res =  Get-AzureRmResourceProvider -Location $settings.Azure.location -ProviderNameSpace Microsoft.Compute
+    $res =  Get-AzResourceProvider -Location $settings.Azure.location -ProviderNameSpace Microsoft.Compute
     If([string]::IsNullOrEmpty($res)) {    
         WriteErrorString "Error: [Azure] location ($location) not found"
-        $locations = Get-AzureRmResourceProvider -ProviderNameSpace Microsoft.Compute
+        $locations = Get-AzResourceProvider -ProviderNameSpace Microsoft.Compute
         $locationNames = $locations[0].Locations
         WriteErrorString "Specify a location from the following list:"
         for ($i=0; $i -lt $locations[0].Locations.Count; $i++) {
@@ -446,10 +449,10 @@ if ($location.length -gt 0) {
 $resourceGroupName = $settings.Azure.resourceGroupName
 
 if ($resourceGroupName.Length -gt 0) {
-    $out = get-AzureRmResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    $out = get-AzResourceGroup -Name $resourceGroupName -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($out.ResourceId.Length -eq 0) {
-        $out = New-AzureRmResourceGroup -Name $resourceGroupName -Location $location
+        $out = New-AzResourceGroup -Name $resourceGroupName -Location $location
 
         $out
         if ($out.ResourceId.Length -eq 0) {
@@ -467,9 +470,9 @@ if ($resourceGroupName.Length -gt 0) {
 $storageAccountName = $settings.Azure.storageAccountName
 
 if ($storageAccountName.length -gt 0) {
-    $storageAcc = Get-AzureRmStorageAccount -ResourceGroupName $resourceGroupName -AccountName $storageAccountName -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    $storageAcc = Get-AzStorageAccount -ResourceGroupName $resourceGroupName -AccountName $storageAccountName -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     If($storageAcc.Id.Length -eq 0) { 
-        $storageAcc = New-AzureRmStorageAccount -ResourceGroupName $resourceGroupName -AccountName $storageAccountName -Location $location -SkuName Standard_LRS -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        $storageAcc = New-AzStorageAccount -ResourceGroupName $resourceGroupName -AccountName $storageAccountName -Location $location -SkuName Standard_LRS -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         if ($storageAcc.Id.Length -eq 0) {
             $msg = $error[0]
             WriteErrorString "Error: [Azure] storageAccountName ($storageAccountName) not found and could not be created - $msg"
@@ -485,9 +488,11 @@ if ($storageAccountName.length -gt 0) {
 
 $diskStorageContainer = $settings.Azure.diskStorageContainer.ToLower()
 if ($diskStorageContainer.length -gt 0) {
-    $container = Get-AzureRmStorageContainer -Name $diskStorageContainer -ResourceGroupName $resourceGroupName -AccountName $storageAccountName -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+	$key = (Get-AzStorageAccountKey -ResourceGroupName $resourceGroupName -Name $storageAccountName)[0].value
+	$context = New-AzStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $key
+    $container = Get-AzStorageContainer -Name $diskStorageContainer -Context $context -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     If($container.Name.Length -eq 0) { 
-        $container = New-AzureRmStorageContainer -Name $diskStorageContainer -ResourceGroupName $resourceGroupName -StorageAccountName $storageAccountName -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        $container = New-AzStorageContainer -Name $diskStorageContainer -Context $context -Permission Blob -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         if ($container.Name.Length -eq 0) {
             $msg = $error[0]
             WriteErrorString "Error: [Azure] diskStorageContainer ($diskStorageContainer) not found and could not be created - $msg"
@@ -516,7 +521,7 @@ if ($vmSize.length -gt 0) {
 
 Write-Host -NoNewline "Creating network interfaces .."
 
-$vm = New-AzureRmVMConfig -VMName $uagName -VMSize $vmSize
+$vm = New-AzVMConfig -VMName $uagName -VMSize $vmSize
 
 switch -Wildcard ($deploymentOption) {
 
@@ -524,17 +529,17 @@ switch -Wildcard ($deploymentOption) {
         ValidateNetworkSettings $settings "0"
         $eth0 = CreateNIC $settings "0"
         $eth0
-        $vm = Add-AzureRmVMNetworkInterface -VM $vm -Id $eth0.Id -Primary
+        $vm = Add-AzVMNetworkInterface -VM $vm -Id $eth0.Id -Primary
         [IO.File]::AppendAllLines($ovfFile, [string[]]("ipMode0=DHCPV4+DHCPV6"))
     }
     'twonic*' {
         ValidateNetworkSettings $settings "0"
         ValidateNetworkSettings $settings "1"
         $eth0 = CreateNIC $settings "0"
-        $vm = Add-AzureRmVMNetworkInterface -VM $vm -Id $eth0.Id -Primary
+        $vm = Add-AzVMNetworkInterface -VM $vm -Id $eth0.Id -Primary
         [IO.File]::AppendAllLines($ovfFile, [string[]]("ipMode0=DHCPV4+DHCPV6"))
         $eth1 = CreateNIC $settings "1"
-        $vm = Add-AzureRmVMNetworkInterface -VM $vm -Id $eth1.Id
+        $vm = Add-AzVMNetworkInterface -VM $vm -Id $eth1.Id
         [IO.File]::AppendAllLines($ovfFile, [string[]]("ipMode1=DHCPV4+DHCPV6"))
     }
     'threenic*' {
@@ -542,13 +547,13 @@ switch -Wildcard ($deploymentOption) {
         ValidateNetworkSettings $settings "1"
         ValidateNetworkSettings $settings "2" 
         $eth0 = CreateNIC $settings "0"
-        $vm = Add-AzureRmVMNetworkInterface -VM $vm -Id $eth0.Id -Primary
+        $vm = Add-AzVMNetworkInterface -VM $vm -Id $eth0.Id -Primary
         [IO.File]::AppendAllLines($ovfFile, [string[]]("ipMode0=DHCPV4+DHCPV6"))
         $eth1 = CreateNIC $settings "1"
-        $vm = Add-AzureRmVMNetworkInterface -VM $vm -Id $eth1.Id
+        $vm = Add-AzVMNetworkInterface -VM $vm -Id $eth1.Id
         [IO.File]::AppendAllLines($ovfFile, [string[]]("ipMode1=DHCPV4+DHCPV6"))
         $eth2 = CreateNIC $settings "2"
-        $vm = Add-AzureRmVMNetworkInterface -VM $vm -Id $eth2.Id
+        $vm = Add-AzVMNetworkInterface -VM $vm -Id $eth2.Id
         [IO.File]::AppendAllLines($ovfFile, [string[]]("ipMode2=DHCPV4+DHCPV6"))
     }
     default {
@@ -571,7 +576,7 @@ $osDiskUri = '{0}{1}/{2}' -f $storageAcc.PrimaryEndpoints.Blob.ToString(), $disk
 # Associate the starter disk with the VM object
 #
 
-$vm = Set-AzureRmVMOSDisk -VM $vm -Name $diskName -VhdUri $osDiskUri -CreateOption fromImage -DiskSizeInGB 40 -SourceImageUri $imageURI -Linux
+$vm = Set-AzVMOSDisk -VM $vm -Name $diskName -VhdUri $osDiskUri -CreateOption fromImage -DiskSizeInGB 40 -SourceImageUri $imageURI -Linux
 
 Write-Host ". OK"
 
@@ -592,9 +597,15 @@ $ovfProperties = Get-Content -Raw $ovfFile
 
 $customData = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($ovfProperties))
 
-$vm = Set-AzureRmVMOperatingSystem -VM $vm -Linux -Credential $Credential -ComputerName $uagName -CustomData $customData
+$vm = Set-AzVMOperatingSystem -VM $vm -Linux -Credential $Credential -ComputerName $uagName -CustomData $customData
+<<<<<<< Updated upstream
 
-$newvm = New-AzureRmVM -ResourceGroupName $resourceGroupName -Location $location -VM $vm -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+$newvm = New-AzVM -ResourceGroupName $resourceGroupName -Location $location -VM $vm -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+=======
+
+$newvm = New-AzVM -ResourceGroupName $resourceGroupName -Location $location -VM $vm -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+
+>>>>>>> Stashed changes
 
 if (!$newvm) {
     Write-Host ". FAILED"
