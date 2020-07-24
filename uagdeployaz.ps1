@@ -600,10 +600,6 @@ $customData = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.Get
 $vm = Set-AzVMOperatingSystem -VM $vm -Linux -Credential $Credential -ComputerName $uagName -CustomData $customData
 
 $newvm = New-AzVM -ResourceGroupName $resourceGroupName -Location $location -VM $vm -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-=======
-
-$newvm = New-AzVM -ResourceGroupName $resourceGroupName -Location $location -VM $vm -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-
 
 if (!$newvm) {
     Write-Host ". FAILED"
