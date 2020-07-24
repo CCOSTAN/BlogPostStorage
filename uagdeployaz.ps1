@@ -1,5 +1,5 @@
 #
-#  Copyright © 2018, 2019, 2020 VMware Inc. All rights reserved.
+#  Copyright Â© 2018, 2019, 2020 VMware Inc. All rights reserved.
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of the software in this file (the "Software"), to deal in the Software 
@@ -598,14 +598,12 @@ $ovfProperties = Get-Content -Raw $ovfFile
 $customData = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($ovfProperties))
 
 $vm = Set-AzVMOperatingSystem -VM $vm -Linux -Credential $Credential -ComputerName $uagName -CustomData $customData
-<<<<<<< Updated upstream
 
 $newvm = New-AzVM -ResourceGroupName $resourceGroupName -Location $location -VM $vm -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 =======
 
 $newvm = New-AzVM -ResourceGroupName $resourceGroupName -Location $location -VM $vm -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
->>>>>>> Stashed changes
 
 if (!$newvm) {
     Write-Host ". FAILED"
