@@ -1,13 +1,17 @@
 <h1 align="center">
   <a name="logo" href="http://www.vCloudInfo.com/search/label/iot"><img src="https://raw.githubusercontent.com/CCOSTAN/Home-AssistantConfig/master/config/www/custom_ui/floorplan/images/branding/twitter_profile.png" alt="Bear Stone Smart Home" width="200"></a>
   <br>
-  Bear Stone Smart Home Configuration
+  Misc Blog Post Attachments
 </h1>
-<h4 align="center">Be sure to :star: my repo so you can keep up to date on the daily progress!.</h4>
+<h4 align="center">This is the place I use to store Blog Post atttachments of free utilities written.
+<br>Be sure to :star: my repo so you can keep up to date on the daily progress!.</h4>
 <div align="center">
+
+[![Twitter Follow](https://img.shields.io/twitter/follow/ccostan?color=blue&amp;label=talk&amp;logo=twitter&amp;style=for-the-badge)](https://twitter.com/ccostan)
+[![YouTube Subscribe](https://img.shields.io/youtube/channel/subscribers/UC301G8JJFzY0BZ_0lshpKpQ?label=VIEW&logo=Youtube&logoColor=%23DF5D44&style=for-the-badge)](https://www.youtube.com/vCloudInfo?sub_confirmation=1)
+[![GitHub Follow](https://img.shields.io/github/stars/CCOSTAN/Home-AssistantConfig?label=Code&amp;logo=Github&amp;style=for-the-badge)](https://github.com/CCOSTAN)
+
   <h4>
-    <a href="https://travis-ci.org/CCOSTAN/Home-AssistantConfig"><img src="https://travis-ci.org/CCOSTAN/Home-AssistantConfig.svg?branch=master"/></a>
-    <a href="https://github.com/CCOSTAN/Home-AssistantConfig/stargazers"><img src="https://img.shields.io/github/stars/CCOSTAN/Home-AssistantConfig.svg?style=plasticr"/></a>
     <a href="https://github.com/CCOSTAN/Home-AssistantConfig/commits/master"><img src="https://img.shields.io/github/last-commit/CCOSTAN/Home-AssistantConfig.svg?style=plasticr"/></a>
   </h4>
 </div>
@@ -52,14 +56,11 @@
   </h4>
 <p align="center">
 
-<a target="_blank" href="https://www.vcloudinfo.com/2019/10/creating-this-pc-namespace-items-new-utility.html">Blog [Creating ‘This PC’ Namespace Items: ThisPC_Item]</a><br>
-<a target="_blank" href="https://www.vcloudinfo.com/2018/12/how-to-determine-security-zone-with.html">Blog [How to determine the Security Zone: GetSecZone]</a><br>
-<a target="_blank" href="https://www.vcloudinfo.com/2019/10/how-to-create-volatile-registry-keys-new-utility.html">Blog [How to Create Volatile Registry Keys: VolatileKey]</a><br>
 
 <a name="bottom" href="https://github.com/CCOSTAN/Home-AssistantConfig#logo"><img align="right" border="0" src="https://raw.githubusercontent.com/CCOSTAN/Home-AssistantConfig/master/config/www/custom_ui/floorplan/images/branding/up_arrow.png" width="25" ></a>
 
 **Still have questions on my Config?**
-**Message me on twitter :** [@CCostan](https://twitter.com/ccostan) or [@BearStoneHA](https://twitter.com/BearStoneHA)
+**Message us on twitter :** [@CCostan](https://twitter.com/ccostan) or [@JacqBens](https://twitter.com/JacqBens)
 
 <p align="center">
 <a target="_blank" href="https://www.buymeacoffee.com/vCloudInfo"><img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee"><span style="margin-left:5px">You can buy me a coffee</span></a><a target="_blank" href="https://www.buymeacoffee.com/vCloudInfo"><img src="https://www.buymeacoffee.com/assets/img/BMC-btn-logo.svg" alt="Buy me a coffee"></a>
