@@ -15,7 +15,6 @@
     <a href="https://github.com/CCOSTAN/Home-AssistantConfig/commits/master"><img src="https://img.shields.io/github/last-commit/CCOSTAN/Home-AssistantConfig.svg?style=plasticr"/></a>
   </h4>
 </div>
-<p align="center"><a align="center" target="_blank" href="https://vcloudinfo.us12.list-manage.com/subscribe?u=45cab4343ffdbeb9667c28a26&id=e01847e94f"><img src="http://feeds.feedburner.com/RecentCommitsToBearStoneHA.1.gif" alt="Recent Commits to Bear Stone Smart Home" style="border:0"></a></p>
 <div align="center"><a name="menu"></a>
   <h4>
     <a href="http://www.vCloudInfo.com/tag/iot">
@@ -28,10 +27,6 @@
     <span> | </span>
     <a href="https://github.com/CCOSTAN/Home-AssistantConfig/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc">
       Todo List
-    </a>
-    <span> | </span>
-    <a href="https://twitter.com/BearStoneHA">
-      Smart Home Stats
     </a>
     <span> | </span>
     <a href="https://www.vcloudinfo.com/click-here">
